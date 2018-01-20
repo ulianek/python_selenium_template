@@ -1,19 +1,17 @@
-import os
-from selenium import webdriver
+from appium import webdriver
+from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 
 from Modules.config import Config
 
 
-class WebDriver(webdriver.Chrome):
-    def __init__(self, browser):
-        if browser == 'chrome':
-            webdriver.Chrome.__init__(self)
-        elif browser == 'firefox':
-            webdriver.Firefox.__init__(self)
+class WebDriverMobile(WebDriver):
+    def __init__(self, url, desired_caps):
+        super().__init__(url, desired_caps)
+
 
     def wait_for_element_and_click(self, element, time=Config.DEFAULT_WAIT_TIME):
         WebDriverWait(self, time).until(

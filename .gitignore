@@ -91,7 +91,6 @@ ENV/
 .ropeproject
 
 geckodriver.exe
-config.py
 env*
 venv*
 *.idea

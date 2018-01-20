@@ -1,17 +1,20 @@
 import os
 from pathlib import Path
 
+emails_path = os.path.abspath('../../Modules/Credentials/emails')
+email_name = "testy34578+"
+
 def get_new_email():
-    email = Path(os.path.abspath('../../Modules/Forms/emails')).read_text().rstrip()
+    email = Path(emails_path).read_text().rstrip()
     increase_email_counter(email)
     return email
 
 
 def increase_email_counter(email):
-    file = open(os.path.abspath('../../Modules/Forms/emails'), "w")
+    file = open(emails_path, "w")
     actual_counter = int(find_between(email, '+', '@'))
     actual_counter = actual_counter + 1
-    file.write('testy34578+' + str(actual_counter) + '@gmail.com')
+    file.write(email_name + str(actual_counter) + '@gmail.com')
     file.close()
 
 # os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + 'Forms/emails'

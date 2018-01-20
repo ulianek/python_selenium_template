@@ -2,19 +2,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 from Modules.Helpers.webdriver_extension import WebDriver
+from Modules.config import Config
 
 
 class BasePage(object):
-    basic_url = "http://rentaware-dev.bitcraft.com.pl/"
-    url = "http://rentaware-dev.bitcraft.com.pl/"
-
-    ACCEPT_COOKIE_BTN = (By.ID, "acceptCookie")
 
     def __init__(self, driver: WebDriver):
+        self.basic_url = self.url = Config.BASE_URL
         self.driver = driver
 
     def navigate(self):
         self.driver.get(self.url)
+        return self
 
     def compare_url(self):
         if self.driver.current_url == self.url:
@@ -22,17 +21,19 @@ class BasePage(object):
         else:
             return False
 
-    def wait_for_redirect(self):
-        WebDriverWait(self.driver, 10).until(lambda driver: self.driver.current_url == self.url)
-
-    def accept_cookies(self):
-        try:
-            self.driver.wait_for_element_and_click(self.ACCEPT_COOKIE_BTN, 3)
-        except:
-            pass
-
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
+
+    def click_on(self, locator):
+        self.driver.wait_for_element_and_click(locator)
+
+    def type(self, locator, text, clear=True):
+        self.driver.wait_for_element_and_send_text(locator, text, clear=clear)
+
+    def get_text(self, locator):
+        return self.driver.wait_for_element_and_get_text(locator)
+
+
     def get_title(self):
         return self.driver.title
 
@@ -45,3 +46,7 @@ class BasePage(object):
             return True
         else:
             return False
+
+    def wait_for_redirect(self):
+        WebDriverWait(self.driver, 10).until(lambda driver: self.driver.current_url == self.url)
+        return self
