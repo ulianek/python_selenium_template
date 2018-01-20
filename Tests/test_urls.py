@@ -5,13 +5,16 @@ import pytz
 
 from Data.websites import urls
 from Modules.Helpers.gmail_service import get_link_from_mail
+from Modules.Helpers.webdriver_extension import WebDriver
+from Modules.Helpers.webdriver_m_extension import WebDriverMobile
+from Modules.config import Config
 
 
-@pytest.fixture
+@pytest.fixture(scope="class")
 def clear_screenshots():
     @pytest.fixture(scope="module")
     def driver_ext():
-        folder = 'Screenshots/'
+        folder = Config.SCREENSHOTS_PATH
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
             try:
@@ -23,9 +26,10 @@ def clear_screenshots():
 
 
 class TestAppearance(object):
+    @pytest.mark.parametrize("url", urls, scope="class")
+    def test_appearance(self, clear_screenshots, driver: WebDriver, url):
+        driver.get(url)
+        remove = driver.find_element_by_xpath("//div[@class='main-bar solid shadowed']")
+        driver.get_screenshots_of_entire_page(Config.SCREENSHOTS_PATH, ("heh") +str(urls.index(url)),merge=False, remove_element=remove)
 
-    @pytest.mark.parametrize("url", [urls])
-    def test_appearance(self, clear_screenshots, driver):
-        get_link_from_mail("Fortuna Intelligent Prospecting (Dev) password restoration")
-        z = 5
 

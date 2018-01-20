@@ -55,7 +55,8 @@ def mobile_driver():
     desired_caps['platformName'] = 'Android'
     desired_caps['platformVersion'] = '8.1.0'
     desired_caps['deviceName'] = "Nexus_5X_API_27_x86"
-    desired_caps['app'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'exmaple.apk'))
+    desired_caps['browserName'] = "Chrome"
+    # desired_caps['app'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'exmaple.apk'))
     selenium_driver = WebDriverMobile('http://localhost:4723/wd/hub', desired_caps)
 
     yield selenium_driver

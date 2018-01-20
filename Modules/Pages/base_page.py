@@ -21,6 +21,12 @@ class BasePage(object):
         else:
             return False
 
+    def save_screenshot(self, file_name):
+        entire_page_height = self.driver.execute_script("return document.body.scrollHeight")
+        windows_height = self.driver.get_window_size()['height']
+
+        self.driverdriver.get_screenshot_as_file(("Screenshots/" + file_name + ".png"))
+
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
 
