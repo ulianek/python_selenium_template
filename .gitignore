@@ -100,3 +100,5 @@ report.html
 geckodriver.log
 
 Tests/assets/
+Screenshots/*
+Screenshots/
