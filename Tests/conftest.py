@@ -13,7 +13,7 @@ from Modules.config import Config
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--base_url", action="store", default="https://www.google.pl/?gws_rd=ssl",
-                     help="Type in browser type")
+                     help="Type in url")
 
 @pytest.mark.hookwrapper
 def pytest_runtest_makereport(item, call):
