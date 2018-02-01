@@ -6,7 +6,7 @@ import re
 
 import dateutil.parser as parser
 import time
-from apiclient import discovery
+from googleapiclient import discovery
 from bs4 import BeautifulSoup
 from httplib2 import Http
 from oauth2client import file, client, tools
