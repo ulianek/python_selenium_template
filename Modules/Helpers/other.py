@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-emails_path = os.path.abspath('../../Modules/Credentials/emails')
+emails_path = os.path.abspath('../Data/emails.txt')
 email_name = "testy34578+"
 
 def get_new_email():
