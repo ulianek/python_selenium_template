@@ -1,6 +1,6 @@
 # Importing required libraries
 import base64
-import datetime
+from datetime import datetime
 import os
 import re
 
