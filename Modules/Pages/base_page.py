@@ -25,7 +25,7 @@ class BasePage(object):
         entire_page_height = self.driver.execute_script("return document.body.scrollHeight")
         windows_height = self.driver.get_window_size()['height']
 
-        self.driverdriver.get_screenshot_as_file(("Screenshots/" + file_name + ".png"))
+        self.driver.get_screenshot_as_file(("Screenshots/" + file_name + ".png"))
 
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
@@ -39,6 +39,8 @@ class BasePage(object):
     def get_text(self, locator):
         return self.driver.wait_for_element_and_get_text(locator)
 
+    def visibility_of_element(self, locator):
+        return self.driver.check_if_element_is_visible(locator)
 
     def get_title(self):
         return self.driver.title
