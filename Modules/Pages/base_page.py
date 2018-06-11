@@ -1,20 +1,40 @@
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from functools import partial
+
+from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
-from Modules.Helpers.screenshot_helper import ScreenshotHelper
-from Modules.Helpers.webdriver_extension import WebDriver
-from Modules.config import Config
-
+from Modules.Helpers.javascript_helper import *
+from Modules.Helpers.screenshot_helper import *
+from Modules.Helpers.waiter_helper import *
+from Tests.config import Config
 
 class BasePage(object):
+
     timeout = Config.DEFAULT_TIMEOUT
 
     def __init__(self, driver: WebDriver):
         self.basic_url = self.url = Config.BASE_URL
         self.driver = driver
-        # self.screenshot_hp = ScreenshotHelper(self.driver)
+        self._initialize_methods()
+
+    def _initialize_methods(self):
+        self.remove_element = partial(remove_element, self.driver)
+        self.scroll_to_height = partial(scroll_to_height, self.driver)
+        self.scroll = partial(scroll, self.driver)
+        self.get_inner_height = partial(get_inner_height, self.driver)
+        self.get_entire_height = partial(get_entire_height, self.driver)
+        self.get_screenshots_of_entire_page = partial(get_screenshots_of_entire_page, self.driver)
+
+        self.wait_for_element = partial(wait_for_element, self.driver)
+        self.wait_for_element_until_invisible = partial(wait_for_element_until_invisible, self.driver)
+        self.wait_and_click_on = partial(wait_and_click_on, self.driver)
+        self.wait_and_get_element = partial(wait_and_get_element, self.driver)
+        self.wait_and_get_elements = partial(wait_and_get_elements, self.driver)
+        self.wait_and_get_text = partial(wait_and_get_text, self.driver)
+        self.wait_and_get_text_from_input = partial(wait_and_get_text_from_input, self.driver)
+        self.wait_and_type = partial(wait_and_type, self.driver)
+        self.wait_for_text = partial(wait_for_text, self.driver)
 
     def navigate(self):
         self.driver.get(self.url)
@@ -29,72 +49,6 @@ class BasePage(object):
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
 
-    def click_on(self, locator, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(locator)
-        )
-        WebDriverWait(self, time).until(
-            EC.element_to_be_clickable(locator)
-        )
-        self.find_element(*locator).click()
-
-    def type(self, locator, text, time=Config.DEFAULT_WAIT_TIME, clear=True):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(locator)
-        )
-        if clear:
-            self.find_element(*locator).clear()
-        self.find_element(*locator).send_keys(text)
-
-    def wait_for_text(self, element, text, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.text_to_be_present_in_element_value(element, text)
-        )
-
-    def wait_for_element(self, element, time=Config.DEFAULT_WAIT_TIME):
-        try:
-            WebDriverWait(self, time).until(
-                EC.presence_of_element_located(element)
-            )
-        except:
-            pass
-
-    def wait_for_element_until_invisible(self, element, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.invisibility_of_element_located(element)
-        )
-
-    def element_is_invisible(self, element, time=timeout):
-        self.wait_for_element(element, time)
-        elements = self.find_elements(*element)
-        if len(elements) > 0:
-            return True
-        else:
-            return False
-
-    def get_text(self, element, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(element)
-        )
-        return self.find_element(*element).text
-
-    def get_text_from_input(self, element, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(element)
-        )
-        return self.find_element(*element).get_attribute("value")
-
-    def get_element(self, element, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(element)
-        )
-        return self.find_element(*element)
-
-    def get_elements(self, element, time=Config.DEFAULT_WAIT_TIME):
-        WebDriverWait(self, time).until(
-            EC.presence_of_element_located(element)
-        )
-        return self.find_elements(*element)
 
     def get_title(self):
         return self.driver.title
