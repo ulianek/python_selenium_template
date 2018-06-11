@@ -7,6 +7,7 @@ from Data.websites import urls
 from Modules.Helpers.gmail_service import get_link_from_mail
 from Modules.Helpers.webdriver_extension import WebDriver
 from Modules.Helpers.webdriver_m_extension import WebDriverMobile
+from Modules.Pages.base_page import BasePage
 from Modules.config import Config
 
 
@@ -27,8 +28,10 @@ def clear_screenshots():
 
 class TestAppearance(object):
     @pytest.mark.parametrize("url", urls, scope="class")
-    def test_appearance(self, clear_screenshots, driver: WebDriver, url):
+    def test_appearance(self, driver: WebDriver, url):
         driver.get(url)
+        base_page = BasePage()
+        base_page.screenshot_hp.get_screenshots_of_entire_page()
         remove = driver.find_element_by_xpath("//div[@class='main-bar solid shadowed']")
         driver.get_screenshots_of_entire_page(Config.SCREENSHOTS_PATH, ("heh") +str(urls.index(url)),merge=False, remove_element=remove)
 
