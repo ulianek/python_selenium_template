@@ -33,6 +33,7 @@ def pytest_runtest_makereport(item, call):
     except:
         pass
 
+
 @pytest.fixture(scope="class")
 def screenshot_folder():
     path = Config.SCREENSHOTS_PATH
@@ -46,6 +47,7 @@ def screenshot_folder():
                 os.unlink(file_path)
         except Exception as e:
             print(e)
+
 
 @pytest.fixture(scope="class")
 def clear_screenshots():
@@ -81,16 +83,16 @@ def driver(request):
     return driver_web
 
 
-@pytest.fixture(scope="class")
-def mobile_driver():
-    desired_caps = {}
-    desired_caps['platformName'] = 'Android'
-    desired_caps['platformVersion'] = '8.1.0'
-    desired_caps['deviceName'] = "Nexus_5X_API_27_x86"
-    desired_caps['browserName'] = "Chrome"
-    # desired_caps['app'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'exmaple.apk'))
-    selenium_driver = WebDriverMobile('http://localhost:4723/wd/hub', desired_caps)
-
-    yield selenium_driver
-
-    selenium_driver.quit()
+# @pytest.fixture(scope="class")
+# def mobile_driver():
+#     desired_caps = {}
+#     desired_caps['platformName'] = 'Android'
+#     desired_caps['platformVersion'] = '8.1.0'
+#     desired_caps['deviceName'] = "Nexus_5X_API_27_x86"
+#     desired_caps['browserName'] = "Chrome"
+#     # desired_caps['app'] = os.path.abspath(os.path.join(os.path.dirname(__file__), 'exmaple.apk'))
+#     selenium_driver = WebDriverMobile('http://localhost:4723/wd/hub', desired_caps)
+#
+#     yield selenium_driver
+#
+#     selenium_driver.quit()

@@ -1,5 +1,4 @@
-from telnetlib import EC
-
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from Tests.config import Config

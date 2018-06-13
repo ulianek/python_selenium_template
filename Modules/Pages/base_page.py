@@ -1,15 +1,13 @@
 from functools import partial
 
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
 from Modules.Helpers.javascript_helper import *
 from Modules.Helpers.screenshot_helper import *
 from Modules.Helpers.waiter_helper import *
 from Tests.config import Config
 
-class BasePage(object):
+
+class BasePage:
 
     timeout = Config.DEFAULT_TIMEOUT
 
@@ -49,7 +47,6 @@ class BasePage(object):
     def find_element(self, *locator):
         return self.driver.find_element(*locator)
 
-
     def get_title(self):
         return self.driver.title
 
@@ -60,7 +57,7 @@ class BasePage(object):
         entire_page_height = self.driver.execute_script("return document.body.scrollHeight")
         windows_height = self.driver.get_window_size()['height']
 
-        self.driver.get_screenshot_as_file(("Screenshots/" + file_name + ".png"))
+        self.driver.get_screenshot_as_file((Config.SCREENSHOTS_PATH + file_name + ".png"))
 
     def wait_for_redirect(self):
         WebDriverWait(self.driver, 10).until(lambda driver: self.driver.current_url == self.url)
